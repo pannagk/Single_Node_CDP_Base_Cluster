@@ -1,1 +1,0 @@
-# Single_Node_CDP_Base_Cluster

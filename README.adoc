@@ -1,0 +1,60 @@
+= Single Node CDP Base Cluster setup on Virtualized Infrastructure
+:toc:
+
+* SSH into the pvcbasemaster node, switch to root user, and run the below commands. 
+
+[,shell]
+----
+sudo su - root
+yum install git -y
+mkdir -p /tmp/CDP_PvC/Logs
+git clone https://github.com/pannagk/Single_Node_CDP_Base_Cluster.git /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster
+----
+
+* Navigate to the /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster folder and run the next set of commands as shwon below. 
+
+[,shell]
+----
+cd /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster
+chmod +x *.sh
+nohup sh 0_base_master_pre_setup.sh > /tmp/CDP_PvC/Logs/0_base_master_pre_setup.log &
+----
+
+* After running the *nohup* command, check the logs with the below command. You should see the output as *Pre-Setup completed*. 
+
+[,shell]
+----
+tail -f -n +1 /tmp/CDP_PvC/Logs/0_base_master_pre_setup.log
+----
+
+* In this step, we will run through the CDP Base OS Prerequisites such as password less ssh from the master, disabling SELinux, disabling IPv6 etc.., 
+
+* Login to the *master* node, switch to the root user, and navigate to the directory */tmp/CDP_PvC/Single_Node_CDP_Base_Cluster*, and the script *1_CDP_Base_OS_Prereq.sh*. 
+
+[,shell]
+----
+sudo su - root
+cd /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster
+nohup sh 1_CDP_Base_OS_Prereq.sh > /tmp/CDP_PvC/Logs/1_CDP_base_OS_prereq.log &
+----
+
+* After running the above *nohup* command, check the logs with the below command. 
+
+[,shell]
+----
+tail -f -n +1 /tmp/CDP_PvC/Logs/1_CDP_base_OS_prereq.log
+----
+
+* In order to disable SELinux, the master node needs to be rebooted. Run the below command and wait for some time before logging into it. 
+[,shell]
+----
+reboot
+----
+
+* Wait for 1 or 2 minutes, and then log back into the base master. Switch to root user and run the verify_CDP_base_prereq.sh script. 
+[,shell]
+----
+sudo su -root
+cd /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster
+nohup sh 2_verify_CDP_base_prereq.sh > /tmp/CDP_PvC/Logs/2_verify_CDP_base_prereq.log &
+----
