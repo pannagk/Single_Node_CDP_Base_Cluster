@@ -58,3 +58,11 @@ sudo su -root
 cd /tmp/CDP_PvC/Single_Node_CDP_Base_Cluster
 nohup sh 2_verify_CDP_base_prereq.sh > /tmp/CDP_PvC/Logs/2_verify_CDP_base_prereq.log &
 ----
+
+* After running the above *nohup* command, check the logs with the below command. 
+
+[,shell]
+----
+tail -f -n +1 /tmp/CDP_PvC/Logs/2_verify_CDP_base_prereq.log &
+----
+
