@@ -1,0 +1,50 @@
+---
+  - name: Tasks for remaining prereq on all the hosts
+    hosts: master
+    become: yes
+    become_user: root
+    tasks:
+      - name: Print service facts
+        ansible.builtin.debug:
+          var: ansible_facts.selinux.status      
+
+      - name: Verify swappiness value
+        shell: sysctl vm.swappiness
+        register: swappiness_status
+      - debug: var=swappiness_status.stdout_lines      
+
+      - name: Verify enabled hugepage value
+        shell: cat /sys/kernel/mm/transparent_hugepage/enabled
+        register: enabled_hugepage_value
+      - debug: var=enabled_hugepage_value.stdout_lines      
+
+      - name: Verify defrag hugepage value
+        shell: cat /sys/kernel/mm/transparent_hugepage/defrag
+        register: defrag_hugepage_value
+      - debug: var=defrag_hugepage_value.stdout_lines      
+
+      - name: Print ntpd state
+        ansible.builtin.systemd:
+          name: ntpd
+        register: ntpd_status
+      - debug:
+          var: ntpd_status.status.ActiveState
+
+      - name: Verify if ntpd is enabled to run on reboot
+        shell: systemctl is-enabled ntpd
+        register: ntpd_enabled_status
+      - debug: var=ntpd_enabled_status.stdout_lines      
+
+      - name: Print firewalld state
+        ansible.builtin.systemd:
+          name: firewalld
+        register: firewalld_status
+        ignore_errors: true  
+      - debug:
+          var: firewalld_status.status.ActiveState
+        ignore_errors: true  
+
+      - name: Check rc.local
+        shell: cat /etc/rc.d/rc.local
+        register: rc_local_status
+      - debug: var=rc_local_status.stdout_lines      

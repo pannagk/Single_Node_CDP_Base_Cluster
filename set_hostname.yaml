@@ -1,0 +1,9 @@
+---
+  - name: Master tasks for password less ssh
+    hosts: master
+    become: yes
+    gather_facts: True
+    tasks:
+    - name: Set Hostname to all the base nodes
+      hostname:
+        name: "cdpbasemaster.cdppvcpoc.com"
