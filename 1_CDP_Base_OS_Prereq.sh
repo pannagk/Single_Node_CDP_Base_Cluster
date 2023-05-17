@@ -38,7 +38,7 @@ echo "Validating password less ssh"
 check_pw_less_ssh
 
 echo "Set hostnames for the master."
-set_hostname
+#set_hostname
 
 echo "Running all the OS prerequisites on all the hosts."
 setup_prereq
