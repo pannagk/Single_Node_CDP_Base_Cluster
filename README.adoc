@@ -1,6 +1,18 @@
 = Single Node CDP Base Cluster setup on Virtualized Infrastructure
 :toc:
 
+===== Single Node CDP Base Cluster
+
+[frame=all, grid=all]
+|===
+|Virtual Machine Size           | CDP Role         | Storage
+
+| 16vcpu/128G(Minimum) 
+
+  32vcpu/128G(Recommended)     | CDP Base Cluster | 200 GB Root(OS) volume 
+|===
+
+
 * SSH into the pvcbasemaster node, switch to root user, and run the below commands. 
 
 [,shell]
